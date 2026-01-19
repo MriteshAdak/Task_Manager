@@ -2,6 +2,8 @@
 
 A modern, containerized Task Management application built with a **Local-First** philosophy. This project is currently in its "Monolith" phase, designed specifically to be decoupled and migrated into a microservices architecture.
 
+<a href="https://task-manager-mritesh.vercel.app/" target="_blank" rel="noopener noreferer">To the App</a>
+
 ## 🚀 Current Architecture
 The app features a **Traffic Controller** logic in the frontend that allows for an immediate "Guest Mode" while maintaining a production-ready PostgreSQL backend for future authenticated users.
 
