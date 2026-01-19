@@ -1,75 +1,75 @@
 'use client';
 
 import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useTasks } from '@/hooks/useTasks';
 import { TaskHeader } from '@/components/molecules/TaskHeader';
-import { TaskContainer } from '@/components/organisms/TaskContainer';
+import { KanbanBoard } from '@/components/organisms/KanbanBoard';
 import { Input } from '@/components/atoms/Input';
 import { Button } from '@/components/atoms/Button';
-import { StatusPicker } from '@/components/molecules/StatusPicker'; // Import the picker
+// import { StatusPicker } from '@/components/molecules/StatusPicker';
 import { TaskStatus } from '@/components/atoms/StatusBadge';
+import { DateTimeInput } from '@/components/atoms/DateTimeInput';
 
 export default function Page() {
-  const { tasks, loading, addTask, deleteTask, updateTaskStatus } = useTasks();
-  
-  // Local state for the "New Task" form
+  const { tasks, loading, addTask, deleteTask, updateTaskStatus, moveTask } = useTasks();
   const [newTitle, setNewTitle] = useState('');
   const [newStatus, setNewStatus] = useState<TaskStatus>('todo');
+  const [dueDate, setDueDate] = useState('');
 
   const handleAdd = () => {
     if (!newTitle.trim()) return;
-    
-    // We update our addTask call to accept the chosen status
-    addTask(newTitle, newStatus); 
-    
-    // Reset form
+    addTask(newTitle, newStatus, dueDate);
     setNewTitle('');
     setNewStatus('todo');
+    setDueDate('');
   };
 
   return (
-    <main className="min-h-screen bg-gray-50 py-12 px-4">
-      <div className="max-w-3xl mx-auto">
-        <TaskHeader title="Workspace" count={tasks.length} />
+    <main className="min-h-screen bg-[#F8FAFC] py-12 px-6">
+      <div className="max-w-6xl mx-auto">
+        <TaskHeader title="WASSUUPP??" phrase="Another To-Do List 😮" count={tasks.length} />
         
-        {/* The New "Creation Bar" Molecule */}
-        <div className="flex flex-col md:flex-row gap-3 mb-8 bg-white p-4 rounded-xl shadow-sm border border-gray-100 items-end">
+        {/* Animated Creation Bar */}
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex flex-col md:flex-row gap-4 mb-12 bg-white p-5 rounded-2xl shadow-sm border border-slate-200 items-end">
+          
           <div className="flex-grow w-full">
-            <label className="text-[10px] font-bold uppercase tracking-wider text-gray-400 ml-1 mb-1 block">
-              Task Title
-            </label>
+
             <Input 
               value={newTitle} 
               onChange={setNewTitle} 
-              placeholder="What's your next goal?" 
+              placeholder='Write your task here and press "Create"' 
               onEnter={handleAdd}
             />
-          </div>
-          
-          <div className="w-full md:w-auto">
-            <StatusPicker 
-              currentStatus={newStatus} 
-              onStatusChange={setNewStatus} 
-            />
+
           </div>
 
-          <Button onClick={handleAdd} className="h-[42px] w-full md:w-auto shadow-md">
-            Add Task
+          <DateTimeInput value={dueDate} onChange={setDueDate} />
+
+          <Button onClick={handleAdd} className="h-[46px] px-8 shadow-blue-100 shadow-lg">
+            Create
           </Button>
-        </div>
+        </motion.div>
 
         {loading ? (
-          <div className="flex justify-center p-10 text-gray-400 animate-pulse">
-            Loading your space...
+          <div className="flex flex-col items-center justify-center p-20 space-y-4">
+            <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-slate-400 font-medium">Synchronizing workspace...</p>
           </div>
         ) : (
-          <TaskContainer 
-            tasks={tasks} 
-            actions={{ 
-              delete: deleteTask, 
-              updateStatus: updateTaskStatus 
-            }} 
-          />
+          <AnimatePresence mode="popLayout">
+            <KanbanBoard 
+              tasks={tasks} 
+              actions={{ 
+                delete: deleteTask, 
+                updateStatus: updateTaskStatus,
+                move: moveTask
+              }} 
+            />
+          </AnimatePresence>
         )}
       </div>
     </main>

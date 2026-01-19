@@ -1,38 +1,67 @@
-import { StatusBadge, TaskStatus } from '../atoms/StatusBadge';
-import { StatusPicker } from './StatusPicker';
-import { Button } from '../atoms/Button';
+import { motion } from "framer-motion";
+import { VerticalNavButton } from "../atoms/VerticalNavButton";
+import { TaskStatus } from "../atoms/StatusBadge";
 
-interface TaskItemProps {
-  task: {
-    id: string | number;
-    title: string;
-    status: TaskStatus;
-  };
-  onDelete: () => void;
-  onStatusUpdate: (newStatus: TaskStatus) => void;
-}
+const STATUS_ORDER: TaskStatus[] = ["todo", "in_progress", "done"];
 
-export const TaskItem = ({ task, onDelete, onStatusUpdate }: TaskItemProps) => (
-  <div className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all group">
-    <div className="flex flex-col gap-2 flex-grow">
-      <div className="flex items-center gap-3">
-        <StatusBadge status={task.status} />
-        <h3 className="text-gray-800 font-semibold text-lg">{task.title}</h3>
+export const TaskItem = ({ task, onMove, onDelete }: any) => {
+  const currentIndex = STATUS_ORDER.indexOf(task.status);
+
+  // Calculate target statuses for the buttons
+  const prevStatus = STATUS_ORDER[currentIndex - 1];
+  const nextStatus = STATUS_ORDER[currentIndex + 1];
+
+  return (
+    <motion.div
+      layout
+      className="relative flex bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden group min-h-[110px]"
+    >
+      {/* LEFT: Move Backward */}
+      {prevStatus && (
+        <VerticalNavButton
+          direction="left"
+          targetStatus={prevStatus}
+          onClick={() => onMove("backward")}
+          title={`Move to ${prevStatus}`}
+        />
+      )}
+
+      {/* CENTER CONTENT */}
+      <div className="flex-grow p-4 flex flex-col justify-between">
+        <div className="flex justify-between items-start">
+          <h4 className="font-bold text-slate-800 leading-tight pr-2">
+            {task.title}
+          </h4>
+          
+        </div>
+          {task.dueDate && (
+            <div className="flex items-center gap-1.5 mt-2">
+              <span className="text-[10px] font-medium text-slate-500">🕒
+                {new Date(task.dueDate).toLocaleString([], {
+                  month: "short",
+                  day: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </span>
+            </div>
+          )}
+          <button
+            onClick={onDelete}
+            className="ml-auto p-1 text-slate-300 hover:text-red-500 transition-colors">
+            x
+          </button>
       </div>
-    </div>
 
-    <div className="flex items-center gap-4">
-      <StatusPicker 
-        currentStatus={task.status} 
-        onStatusChange={onStatusUpdate} 
-      />
-      <Button 
-        variant="danger" 
-        onClick={onDelete}
-        className="opacity-0 group-hover:opacity-100 transition-opacity"
-      >
-        Delete
-      </Button>
-    </div>
-  </div>
-);
+      {/* RIGHT: Move Forward */}
+      {nextStatus && (
+        <VerticalNavButton
+          direction="right"
+          targetStatus={nextStatus}
+          onClick={() => onMove("forward")}
+          title={`Move to ${nextStatus}`}
+        />
+      )}
+    </motion.div>
+  );
+};
