@@ -16,13 +16,14 @@ The app features a **Traffic Controller** logic in the frontend that allows for 
 
 ### 🗺 Future Roadmap
 
-## Phase 1: Authentication & Identity (Next)
+## Phase 1: Microservices-Ready Transition (Next)
+- [ ] **Service Split**: Decouple modules into a standalone internal service.
+
+## Phase 2: Authentication & Identity
 - [ ] **Auth Service**: Implement a dedicated Microservice for User Auth (JWT/OAuth2).
 - [ ] **User-Task Mapping**: Transition Postgres schema to support `user_id` foreign keys.
 - [ ] **Sync Engine**: Logic to migrate localStorage data to the cloud upon first login.
 
-## Phase 2: Microservices Transition
-- [ ] **Service Split**: Decouple TaskRepository into a standalone internal service.
 
 ## Phase 3: Security & Hardening
 - [ ] **Input Sanitization**: Implement Pydantic-based strict validation and Bleach for XSS prevention.
