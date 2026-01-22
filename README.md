@@ -20,12 +20,12 @@ The app features a **Traffic Controller** logic in the frontend that allows for 
 
 ## Phase 1: Microservices-Ready Transition (Next)
 - [ ] **Service Split**: Decouple modules into a standalone internal service.
+# NOTE: This application has no practical purpose other than learning the transition from badly deisgned system (intentional) to a structured application design. Since these will be migrated to microservices, the first restructuring will be based on functionlity(service) of modules. Other Phases may or may not take place depending on how this one goes.
 
 ## Phase 2: Authentication & Identity
 - [ ] **Auth Service**: Implement a dedicated Microservice for User Auth (JWT/OAuth2).
 - [ ] **User-Task Mapping**: Transition Postgres schema to support `user_id` foreign keys.
 - [ ] **Sync Engine**: Logic to migrate localStorage data to the cloud upon first login.
-
 
 ## Phase 3: Security & Hardening
 - [ ] **Input Sanitization**: Implement Pydantic-based strict validation and Bleach for XSS prevention.
