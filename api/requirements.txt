@@ -15,7 +15,8 @@ httpcore==1.0.9
 httpx==0.28.1
 
 # Driver for Postgres
-psycopg[binary]==3.3.2
+psycopg2-binary==2.9.11
+# psycopg2[binary]==3.3.2
 
 # load .env variables
 python-dotenv==1.2.1
