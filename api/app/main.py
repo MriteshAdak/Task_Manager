@@ -1,14 +1,28 @@
-# import os
+import os
 from fastapi import FastAPI, Depends#, HTTPException
 from fastapi.staticfiles import StaticFiles
 from app.database import get_db, engine, Base
 from app.repository import TaskRepository
 from app.schemas import TaskCreate#, TaskResponse
 from sqlalchemy.orm import Session
+from fastapi.middleware.cors import CORSMiddleware
 
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+
+UI_ORIGINS = os.getenv("UI_ORIGINS", "")
+
+origins = [o.strip() for o in UI_ORIGINS.split(",") if o]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_origin_regex=r"https://.*\.vercel\.app",
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.post("/tasks")#, response_model=TaskResponse)
 def create_task(task_data: TaskCreate, db: Session = Depends(get_db)):
