@@ -13,12 +13,20 @@ app = FastAPI()
 @app.post("/tasks")#, response_model=TaskResponse)
 def create_task(task_data: TaskCreate, db: Session = Depends(get_db)):
     repo = TaskRepository(db)
-    return repo.add(task_data.title, task_data.status)
+    return repo.add(task_data.title, task_data.status, task_data.dueDate)
 
 @app.get("/tasks")#, response_model=[TaskResponse])
 def get_tasks(db: Session = Depends(get_db)):
     repo = TaskRepository(db)
     return repo.get()
+
+@app.put("/tasks/{task_id}")
+def update_task(task_id: str, task_data: TaskCreate, db: Session = Depends(get_db)):
+    repo = TaskRepository(db)
+    updated_task = repo.update(task_id, task_data.title, task_data.status, task_data.dueDate)
+    if updated_task:
+        return updated_task
+    return {"error": "Task not found"}
 
 @app.delete("/tasks/{task_id}")
 def delete_task(task_id: str, db: Session = Depends(get_db)):
