@@ -32,8 +32,8 @@ A full-stack task management application with a Next.js frontend, FastAPI backen
 
 1. **Clone the repository**
    ```bash
-   git clone <your-repo-url>
-   cd <repo-name>
+   git clone git@github.com:MriteshAdak/Task_Manager.git
+   cd Task_Manager
    ```
 
 2. **Start with Docker Compose**
@@ -46,16 +46,16 @@ A full-stack task management application with a Next.js frontend, FastAPI backen
 **Backend:**
 ```bash
 cd api
+python3 -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
-export DATABASE_URL="postgresql://user:password@localhost:5432/task_db"
 uvicorn app.main:app --reload
 ```
 
 **Frontend:**
 ```bash
-cd ui
+cd ../ui
 npm install
-export BACKEND_URL="http://localhost:8000"
 npm run dev
 ```
 
@@ -70,20 +70,19 @@ npm run dev
 │   │   ├── models.py      # SQLAlchemy models
 │   │   ├── repository.py  # Data access layer
 │   │   └── schemas.py     # Pydantic schemas
-│   ├── Dockerfile.prod    # Production Docker config
+│   ├── Dockerfile         # Docker config backend container
 │   └── requirements.txt   # Python dependencies
 ├── ui/                    # Next.js frontend
 │   ├── src/
 │   │   ├── app/          # Next.js app router
-│   │   ├── components/   # React components (Atomic Design)
+│   │   ├── components/   # React components
 │   │   ├── hooks/        # Custom React hooks
 │   │   ├── lib/          # Utilities & API proxy
+│   │   ├── types/        # Interfaces (contracts)
 │   │   └── services/     # API & storage services
-│   └── package.json
-├── docker-compose.yml     # Local development setup
-├── railway.json          # Railway deployment config
-├── vercel.json          # Vercel deployment config
-└── DEPLOYMENT.md        # Production deployment guide
+│   ├── Dockerfile        # Docker config frontend container
+│   └── package.json      # Node dependencies
+└── docker-compose.yml    # Local containerization setup
 ```
 
 ## 🔧 Configuration
@@ -91,18 +90,11 @@ npm run dev
 ### Environment Variables
 
 **Backend (Railway):**
-- `DATABASE_URL` - PostgreSQL connection string from Supabase
+- `DATABASE_URL` - PostgreSQL connection string from Supabase (may defer based on the type of connection you choose)
 - `UI_ORIGINS` - Comma-separated list of allowed origins for CORS
 
 **Frontend (Vercel):**
 - `BACKEND_URL` - Railway API URL for server-side requests
-- `NEXT_PUBLIC_API_URL` - (Optional) Public API URL for client-side requests
-
-See [.env.production.example](./.env.production.example) for detailed configuration.
-
-## 🚀 Deployment
-
-Follow the [complete deployment guide](./DEPLOYMENT.md) to deploy to production.
 
 ### Quick Deploy Steps
 
