@@ -7,9 +7,9 @@ A full-stack task management application with a Next.js frontend, FastAPI backen
 
 ## 🚀 Production Stack
 
-- **Frontend**: Vercel (Next.js 16)
-- **Backend**: Railway (FastAPI + Python 3.13) <!-- not really necessary but was implemented for learning -->
-- **Database**: Supabase (PostgreSQL)
+- **Frontend**: Next.js 16
+- **Backend**: FastAPI + Python 3.13 <!-- not really necessary but was implemented for learning -->
+- **Database**: PostgreSQL
 
 ## 🏗️ Architecture
 
