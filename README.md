@@ -155,21 +155,4 @@ Full API documentation available at `/docs` when running the backend.
 - [ ] **Input Sanitization**: Implement Pydantic-based strict validation and Bleach for XSS prevention.
 - [ ] **Rate Limiting**: Protect API endpoints from brute force and DoS.
 
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test locally with `docker-compose up`
-5. Submit a pull request
-
-## 🆘 Support
-
-For code issues, open an issue in this repository.
-
----
-
-Built with ❤️ using Next.js, FastAPI, and PostgreSQL
-
 PS: This project also involves heavy use of GPTs mainly for the frontEnd NEXT.js code. The intent is to learn how to use them effectively.
