@@ -36,8 +36,8 @@ def create_task(task_data: TaskCreate, service: TaskServices = Depends(get_task_
 
 @router.put("/{task_id}", 
             response_model=TaskResponse, 
-            status_code=status.HTTP_200_OK, s
-            ummary="Update an existing task")
+            status_code=status.HTTP_200_OK, 
+            summary="Update an existing task")
 def update_task(task_id: str, task_data: TaskUpdate, service: TaskServices = Depends(get_task_service)) -> TaskResponse:
     """
     Update an existing task with the provided data
