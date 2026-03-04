@@ -1,4 +1,6 @@
-# Pydantic models that validate data to be updated in the API.
+"""
+Pydantic models that validate data to be updated in the API.
+"""
 
 from pydantic import BaseModel, Field
 

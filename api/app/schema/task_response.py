@@ -1,5 +1,6 @@
-# Pydantic models that validate data to be fetched by the API.
-
+"""
+Pydantic models that validate data to be fetched by the API.
+"""
 from pydantic import BaseModel, ConfigDict, Field
 
 from datetime import datetime

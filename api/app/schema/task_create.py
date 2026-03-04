@@ -1,4 +1,6 @@
-# Pydantic models that validate data to be created in the API.
+"""
+Pydantic models that validate data to be created in the API.
+"""
 
 from pydantic import BaseModel, Field
 
