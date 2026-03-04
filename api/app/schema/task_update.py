@@ -12,7 +12,7 @@ class TaskUpdate(BaseModel):
     Fields:
     - title: The title of the task.
     - status: The status of the task.
-    - duedate: The due date for the task.
+    - due_date: The due date for the task.
     """
 
     title: str = Field(..., description="task title")

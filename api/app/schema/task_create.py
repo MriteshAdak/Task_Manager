@@ -12,7 +12,7 @@ class TaskCreate(BaseModel):
     Fields:
     - title: The title of the task (required).
     - status: The status of the task (optional, defaults to "todo").
-    - duedate: The due date for the task (optional).
+    - due_date: The due date for the task (optional).
     """
 
     title: str = Field(..., description="task title")

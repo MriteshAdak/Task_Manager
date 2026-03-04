@@ -13,7 +13,7 @@ class TaskResponse (BaseModel):
     - id: The unique identifier of the task.
     - title: The title of the task.
     - status: The status of the task.
-    - duedate: The due date for the task.
+    - due_date: The due date for the task.
     """
     
     model_config = ConfigDict(from_attributes=True)
@@ -21,4 +21,4 @@ class TaskResponse (BaseModel):
     id: str = Field(description="task id")
     title: str = Field(description="task title")
     status: str = Field(description="task status")
-    duedate: Optional[datetime] = Field(default=None, description="task due date")
+    due_date: Optional[datetime] = Field(default=None, description="task due date")
