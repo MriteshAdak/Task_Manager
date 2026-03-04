@@ -6,7 +6,7 @@ import uuid
 
 from app.exceptions import TaskNotFoundException, TaskDeleteError
 from app.models import Task
-from app.repository import TaskRepository
+from api.app.repositories.repository import TaskRepository
 from app.schema.task_create import TaskCreate
 from app.schema.task_update import TaskUpdate
 
