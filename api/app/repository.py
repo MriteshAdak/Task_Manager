@@ -13,7 +13,7 @@ class TaskRepository:
     # -------- CRUD Operations --------
     # ------------- Read --------------
 
-    def get(self) -> list[Task]:
+    def get_all(self) -> list[Task]:
         """Fetch all tasks from the database"""
         return self.db.query(Task).all()
     
