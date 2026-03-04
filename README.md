@@ -65,11 +65,14 @@ npm run dev
 .
 ├── api/                    # FastAPI backend
 │   ├── app/
-│   │   ├── main.py        # API routes & CORS config
-│   │   ├── database.py    # Database connection
-│   │   ├── models.py      # SQLAlchemy models
-│   │   ├── repository.py  # Data access layer
-│   │   └── schemas.py     # Pydantic schemas
+│   │   ├── main.py                 # App wiring + middleware
+│   │   ├── edge/                   # HTTP layer (routers + DTOs)
+│   │   ├── application/            # Use-cases + ports
+│   │   ├── domain/                 # Domain entities
+│   │   ├── infrastructure/db/      # SQLAlchemy adapters
+│   │   ├── bootstrap/              # Dependency wiring
+│   │   ├── database.py             # DB connection/session
+│   │   └── models.py               # SQLAlchemy models
 │   ├── Dockerfile         # Docker config backend container
 │   └── requirements.txt   # Python dependencies
 ├── ui/                    # Next.js frontend
@@ -112,6 +115,10 @@ npm run dev
 | POST | `/tasks` | Create a task |
 | PUT | `/tasks/{id}` | Update a task |
 | DELETE | `/tasks/{id}` | Delete a task |
+| GET | `/v1/tasks` | Versioned list tasks endpoint |
+| POST | `/v1/tasks` | Versioned create task endpoint |
+| PUT | `/v1/tasks/{id}` | Versioned update task endpoint |
+| DELETE | `/v1/tasks/{id}` | Versioned delete task endpoint |
 
 Full API documentation available at `/docs` when running the backend.
 
