@@ -143,16 +143,12 @@ Full API documentation available at `/docs` when running the backend.
 
 ## 🗺 Future Roadmap
 
-# Phase 1: Microservices-Ready Transition (Next)
 - [ ] **Service Split**: Decouple modules into a standalone internal service.
-#### NOTE: This application has no practical purpose other than learning the transition from badly deisgned system (intentional) to a structured application design. Since these will be migrated to microservices, the first restructuring will be based on functionlity(service) of modules. Other Phases may or may not take place depending on how this one goes.
+#### NOTE: This application has no practical purpose other than learning different stacks and transitioning from badly deisgned system (intentional) to a structured application design. 
 
-# Phase 2: Authentication & Identity
 - [ ] **User-Task Mapping**: Transition Postgres schema to support `user_id` foreign keys.
-- [ ] **Auth Service**: Implement a dedicated Microservice for User Auth (JWT/OAuth2).
 
-# Phase 3: Security & Hardening
-- [ ] **Input Sanitization**: Implement Pydantic-based strict validation and Bleach for XSS prevention.
-- [ ] **Rate Limiting**: Protect API endpoints from brute force and DoS.
+- [ ] **MongoDB**: Adding MongoDB in the mix. Additional services will be created.
 
-PS: This project also involves heavy use of GPTs mainly for the frontEnd NEXT.js code. The intent is to learn how to use them effectively.
+
+PS: This project also involves heavy use of Generative LLMs mainly for the frontEnd NEXT.js code. The intent is to learn how to use them effectively.
