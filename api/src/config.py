@@ -51,7 +51,7 @@ class Settings(BaseSettings):
         """Construct the connection string"""
         return(
             f"postgresql+psycopg2://{self.db_user}:{self.db_password}"
-            f"@{self.db_host}:{self.db_port}/{self.db_name}?sslmode=require"
+            f"@{self.db_host}:{self.db_port}/{self.db_name}?sslmode=prefer"
         )
 
 settings = Settings() # type: ignore[call-arg]
