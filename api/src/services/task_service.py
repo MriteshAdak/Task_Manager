@@ -23,6 +23,20 @@ class TaskServices:
         """
         return self.repository.get_all()
 
+    def get_task_by_id(self, task_id: str) -> Task:
+        """
+        Retrieve a single task by ID.
+
+        Raises
+        ------
+        TaskNotFoundException
+            If no task with the given ID exists.
+        """
+        task = self.repository.get_by_id(task_id)
+        if task is None:
+            raise TaskNotFoundException(task_id)
+        return task
+
     def create_task(self, task_data: TaskCreate) -> Task:
         """
         Creates the new task from the payload with a unique ID
