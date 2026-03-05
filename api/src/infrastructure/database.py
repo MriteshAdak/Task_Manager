@@ -11,7 +11,7 @@ import logging
 import time
 
 from sqlalchemy import create_engine, text, Engine
-from sqlalchemy.orm import sessionmaker, DeclarativeBase
+from sqlalchemy.orm import sessionmaker, DeclarativeBase, Session
 from sqlalchemy.exc import OperationalError
 from sqlalchemy.pool import QueuePool
 
@@ -49,15 +49,15 @@ def build_engine(database_url: str) -> Engine:
     return create_engine(
         database_url,
         poolclass=QueuePool,
-        pool_size=5,  # Number of connections to maintain
-        max_overflow=10,  # Max connections beyond pool_size
-        pool_pre_ping=True,  # Verify connections before using
-        pool_recycle=3600,  # Recycle connections after 1 hour
-        echo=False,  # Set to True for SQL query logging in development
+        pool_size=5,
+        max_overflow=10,
+        pool_pre_ping=True,
+        pool_recycle=3600,
+        echo=False
     )
 
 
-def init_db(database_url: str) -> tuple[Engine, sessionmaker]:
+def init_db(database_url: str) -> tuple[Engine, sessionmaker] | None:
     """
     Initialise the database engine with a startup retry loop
 

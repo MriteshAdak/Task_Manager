@@ -2,7 +2,7 @@
 Translates domain exceptions into HTTP responses
 """
 
-from fastapi import Request
+from fastapi import Request, FastAPI
 from fastapi.responses import JSONResponse
 
 from src.exceptions.exceptions import TaskNotFoundException, TaskDeleteError

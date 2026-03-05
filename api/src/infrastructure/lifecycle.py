@@ -6,9 +6,11 @@ import logging
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
+from sqlalchemy import Engine
+from sqlalchemy.orm import sessionmaker
 
 from src.config import settings
-from app.database import Base, init_db
+from src.infrastructure.database import Base, init_db
 
 logger: logging.Logger = logging.getLogger(__name__)
 
@@ -29,7 +31,7 @@ async def lifespan(app: FastAPI):
 
     logger.info("Starting tasks APIs...")
 
-    engine, session_local = await init_db(settings.database_url)
+    engine: Engine, session_local: sessionmaker = await init_db(settings.database_url)
     app.state.engine = engine
     app.state.session_local = session_local
 
