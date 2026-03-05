@@ -10,7 +10,7 @@ router: APIRouter = APIRouter(tags=["System"])
 @router.get("/health", 
             summary="Health Check", 
             description="Endpoint to check if the service is running")
-async def health_check():
+async def health_check() -> dict[str, str]:
     """
     Lightweight endpoint for monitoring service health. Returns basic status info.
     """
@@ -23,7 +23,7 @@ async def health_check():
 @router.get("/", 
             summary="API Root",
             description="Root endpoint providing basic info about the API")
-async def root():
+async def root() -> dict[str, str | dict[str, str]]:
     """
     Returns available endpoints group
     """
