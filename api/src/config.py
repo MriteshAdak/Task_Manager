@@ -77,7 +77,9 @@ class Settings:
 
     @property
     def database_url(self) -> str:
-        """Construct the connection string"""
+        """
+        Construct the connection string
+        """
         return self.db_url
 
 
