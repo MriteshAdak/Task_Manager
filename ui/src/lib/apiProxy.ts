@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const BACKEND_URL = process.env.BACKEND_URL;
-
-if (!BACKEND_URL) {
+const BACKEND_URL: string = process.env.BACKEND_URL ?? (() => {
   throw new Error('Missing required environment variable: BACKEND_URL');
-}
+})();
 
 function joinBackendUrl(baseUrl: string, path: string): string {
   const normalizedBase = baseUrl.replace(/\/+$/, '');
