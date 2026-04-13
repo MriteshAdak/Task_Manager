@@ -20,6 +20,12 @@ class TaskResponse (BaseModel):
     model_config = ConfigDict(from_attributes=True, populate_by_name=True)
 
     id: str = Field(description="task id")
+    user_id: Optional[str] = Field(
+        default=None,
+        description="task owner id",
+        validation_alias=AliasChoices("user_id", "userId"),
+        serialization_alias="userId"
+    )
     title: str = Field(description="task title")
     status: str = Field(description="task status")
     due_date: Optional[datetime] = Field(

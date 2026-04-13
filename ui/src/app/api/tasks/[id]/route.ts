@@ -2,6 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import { proxyRequest } from '@/lib/apiProxy';
 import { TaskCreate } from '@/types/task';
 
+function requireUserId(request: NextRequest): string | null {
+  const userId = request.headers.get('x-user-id')?.trim();
+  if (!userId) {
+    return null;
+  }
+  return userId;
+}
+
 /**
  * GET /api/tasks/:id
  * Retrieve a specific task by ID
@@ -11,6 +19,14 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ): Promise<NextResponse> {
+  const userId = requireUserId(request);
+  if (!userId) {
+    return NextResponse.json(
+      { error: 'User ID is required' },
+      { status: 400 }
+    );
+  }
+
   const { id } = await params;
 
   if (!id) {
@@ -22,6 +38,9 @@ export async function GET(
 
   return proxyRequest(`/tasks/${id}`, request, {
     method: 'GET',
+    headers: {
+      'x-user-id': userId,
+    },
   });
 }
 
@@ -34,6 +53,14 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ): Promise<NextResponse> {
   try {
+    const userId = requireUserId(request);
+    if (!userId) {
+      return NextResponse.json(
+        { error: 'User ID is required' },
+        { status: 400 }
+      );
+    }
+
     const { id } = await params;
 
     if (!id) {
@@ -55,6 +82,9 @@ export async function PUT(
 
     return proxyRequest(`/tasks/${id}`, request, {
       method: 'PUT',
+      headers: {
+        'x-user-id': userId,
+      },
       body: {
         title: body.title,
         status: body.status || 'todo',
@@ -79,6 +109,14 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ): Promise<NextResponse> {
   try {
+    const userId = requireUserId(request);
+    if (!userId) {
+      return NextResponse.json(
+        { error: 'User ID is required' },
+        { status: 400 }
+      );
+    }
+
     const { id } = await params;
 
     if (!id) {
@@ -90,6 +128,9 @@ export async function DELETE(
 
     return proxyRequest(`/tasks/${id}`, request, {
       method: 'DELETE',
+      headers: {
+        'x-user-id': userId,
+      },
     });
   } catch (error) {
     console.error('Error parsing DELETE request:', error);

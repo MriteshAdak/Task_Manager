@@ -17,13 +17,13 @@ class TaskServices:
     def __init__(self, repository: TaskRepository) -> None:
         self.repository = repository
 
-    def get_all_tasks(self) -> list[Task]:
+    def get_all_tasks(self, user_id: str) -> list[Task]:
         """
         Retrieves all tasks as List[Task] from the repository
         """
-        return self.repository.get_all()
+        return self.repository.get_all(user_id)
 
-    def get_task_by_id(self, task_id: str) -> Task:
+    def get_task_by_id(self, task_id: str, user_id: str) -> Task:
         """
         Retrieve a single task by ID.
 
@@ -32,12 +32,12 @@ class TaskServices:
         TaskNotFoundException
             If no task with the given ID exists.
         """
-        task = self.repository.get_by_id(task_id)
+        task = self.repository.get_by_id(task_id, user_id)
         if task is None:
             raise TaskNotFoundException(task_id)
         return task
 
-    def create_task(self, task_data: TaskCreate) -> Task:
+    def create_task(self, task_data: TaskCreate, user_id: str) -> Task:
         """
         Creates the new task from the payload with a unique ID
 
@@ -48,13 +48,14 @@ class TaskServices:
         """
         task = Task(
             id=str(uuid.uuid4()),
+            user_id=user_id,
             title=task_data.title,
             status=task_data.status,
             due_date=task_data.due_date
         )
         return self.repository.add(task)
 
-    def update_task(self, task_id: str, task_data: TaskUpdate) -> Task | None:
+    def update_task(self, task_id: str, task_data: TaskUpdate, user_id: str) -> Task | None:
         """
         Fully replace the fields of an existing task (PUT semantics)
 
@@ -75,7 +76,7 @@ class TaskServices:
         TaskNotFoundError
             If no task with the given ID exists
         """
-        task = self.repository.get_by_id(task_id)
+        task = self.repository.get_by_id(task_id, user_id)
         
         if task is None:
             raise TaskNotFoundException(task_id)
@@ -86,7 +87,7 @@ class TaskServices:
 
         return self.repository.update(task)
     
-    def delete_task(self, task_id: str) -> None:
+    def delete_task(self, task_id: str, user_id: str) -> None:
         """
         Remove a task from the data store
 
@@ -100,7 +101,7 @@ class TaskServices:
         TaskNotFoundError
             If no task with the given ID exists
         """
-        task = self.repository.get_by_id(task_id)
+        task = self.repository.get_by_id(task_id, user_id)
         
         if task is None:
             raise TaskNotFoundException(task_id)

@@ -13,13 +13,13 @@ class TaskRepository:
     # -------- CRUD Operations --------
     # ------------- Read --------------
 
-    def get_all(self) -> list[Task]:
+    def get_all(self, user_id: str) -> list[Task]:
         """Fetch all tasks from the database"""
-        return self.db.query(Task).all()
+        return self.db.query(Task).filter(Task.user_id == user_id).all()
     
-    def get_by_id(self, task_id: str) -> Task | None:
+    def get_by_id(self, task_id: str, user_id: str) -> Task | None:
         """Fetch a single task by its ID"""
-        return self.db.query(Task).filter(Task.id == task_id).first()
+        return self.db.query(Task).filter(Task.id == task_id, Task.user_id == user_id).first()
 
     #------------- Write --------------
 

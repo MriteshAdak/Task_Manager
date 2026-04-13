@@ -1,14 +1,33 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { proxyRequest } from '@/lib/apiProxy';
-import { TaskCreate, Task } from '@/types/task';
+import { TaskCreate } from '@/types/task';
+
+function requireUserId(request: NextRequest): string | null {
+  const userId = request.headers.get('x-user-id')?.trim();
+  if (!userId) {
+    return null;
+  }
+  return userId;
+}
 
 /**
  * GET /api/tasks
  * Retrieve all tasks from the backend
  */
 export async function GET(request: NextRequest): Promise<NextResponse> {
+  const userId = requireUserId(request);
+  if (!userId) {
+    return NextResponse.json(
+      { error: 'User ID is required' },
+      { status: 400 }
+    );
+  }
+
   return proxyRequest('/tasks', request, {
     method: 'GET',
+    headers: {
+      'x-user-id': userId,
+    },
   });
 }
 
@@ -18,6 +37,14 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
  */
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
+    const userId = requireUserId(request);
+    if (!userId) {
+      return NextResponse.json(
+        { error: 'User ID is required' },
+        { status: 400 }
+      );
+    }
+
     const body = await request.json() as TaskCreate;
 
     // Validate required fields
@@ -30,6 +57,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     return proxyRequest('/tasks', request, {
       method: 'POST',
+      headers: {
+        'x-user-id': userId,
+      },
       body: {
         title: body.title,
         status: body.status || 'todo',

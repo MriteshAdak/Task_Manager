@@ -1,24 +1,24 @@
 import { useState, useEffect } from 'react';
-import { localStorageService } from '@/services/localStorageService';
 import { apiService } from '@/services/apiService';
 import { TaskStatus } from '@/components/atoms/StatusBadge';
 import { Task, TaskCreate } from '@/types/task';
 // import { TaskItem } from '@/components/molecules/TaskItem';
 // import { DateTimeInput } from '@/components/atoms/DateTimeInput';
 
-export function useTasks() {
+export function useTasks(userId: string | null) {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
-  
-  // Future toggle: this will be driven by the Auth Service
-  const isLoggedIn = true; 
-
-  const activeService = isLoggedIn ? apiService : localStorageService;
 
   const loadData = async () => {
+    if (!userId) {
+      setTasks([]);
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
     try {
-      const data = await activeService.getTasks();
+      const data = await apiService.getTasks(userId);
       setTasks(data);
     } catch (err) {
       console.error("Failed to load tasks", err);
@@ -28,18 +28,24 @@ export function useTasks() {
   };
 
   const addTask = async (title: string, status: TaskStatus = 'todo', dueDate?: string) => {
+    if (!userId) return;
+
     const newTaskTemplate: TaskCreate = { title, status, dueDate: dueDate || null };
-    const savedTask = await activeService.saveTask(newTaskTemplate);
+    const savedTask = await apiService.saveTask(newTaskTemplate, userId);
     setTasks(prev => [...prev, savedTask]);
   };
 
   //  | number
   const deleteTask = async (id: string | number) => {
-    await activeService.deleteTask(id);
+    if (!userId) return;
+
+    await apiService.deleteTask(id, userId);
     setTasks(prev => prev.filter(t => t.id !== String(id)));
   };
 
   const updateTaskStatus = async (id: string | number, status: TaskStatus) => {
+    if (!userId) return;
+
     const taskToUpdate = tasks.find(t => t.id === String(id));
     if (!taskToUpdate) return;
 
@@ -53,7 +59,7 @@ export function useTasks() {
       setTasks(prev => prev.map(t => t.id === String(id) ? { ...t, status } : t));
       
       // Persist change
-      await activeService.updateTask(id, updatedTask);
+      await apiService.updateTask(id, updatedTask, userId);
     } catch (err) {
       console.error("Failed to update status", err);
       // Fallback: reload data if persistence fails
@@ -77,7 +83,7 @@ export function useTasks() {
 
   useEffect(() => {
     loadData();
-  }, [isLoggedIn]);
+  }, [userId]);
 
   return { tasks, loading, addTask, deleteTask, updateTaskStatus, moveTask };
 }

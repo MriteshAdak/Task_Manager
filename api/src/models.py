@@ -19,6 +19,7 @@ class Task(Base):
     __tablename__ = "tasks"
 
     id: Mapped[str] = mapped_column(String, primary_key=True, index=True)
+    user_id: Mapped[str | None] = mapped_column(String, index=True, nullable=True)
     title: Mapped[str] = mapped_column(String, nullable=False)
     status: Mapped[str] = mapped_column(String, default="todo")
     due_date: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
