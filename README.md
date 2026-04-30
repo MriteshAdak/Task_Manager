@@ -8,7 +8,7 @@ A full-stack task management application with a Next.js frontend, FastAPI backen
 ## 🚀 Production Stack
 
 - **Frontend**: Next.js 16 (can replace the backend using Prisma as the ORM) (**Vibe Coded**)
-- **Backend**: FastAPI + Python 3.13 (not really necessary but aids in learning)
+- **Backend**: FastAPI + Python 3.13 (not really necessary but aids in learning) (**GPT Assisted**)
 - **Database**: PostgreSQL
 
 ## 🏗️ Architecture (subject to change based on credit balance)
